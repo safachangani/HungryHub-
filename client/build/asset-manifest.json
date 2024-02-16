@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.9ac5aa2e.css",
-    "main.js": "/static/js/main.bf2aad4a.js",
+    "main.js": "/static/js/main.aafc0958.js",
     "static/media/pexels-sharan-pagadala-12365.jpg": "/static/media/pexels-sharan-pagadala-12365.5a529c9bbfdbbf81c2fd.jpg",
     "static/media/pexels-rajesh-tp-1600727.jpg": "/static/media/pexels-rajesh-tp-1600727.98c9215ce3a7da817b59.jpg",
     "static/media/pexels-rajesh-tp-1633572.jpg": "/static/media/pexels-rajesh-tp-1633572.38b135c4c3bbd2b4e676.jpg",
@@ -12,10 +12,10 @@
     "static/media/razorpay.svg": "/static/media/razorpay.f31107b37862d066507e8f964e7d2090.svg",
     "index.html": "/index.html",
     "main.9ac5aa2e.css.map": "/static/css/main.9ac5aa2e.css.map",
-    "main.bf2aad4a.js.map": "/static/js/main.bf2aad4a.js.map"
+    "main.aafc0958.js.map": "/static/js/main.aafc0958.js.map"
   },
   "entrypoints": [
     "static/css/main.9ac5aa2e.css",
-    "static/js/main.bf2aad4a.js"
+    "static/js/main.aafc0958.js"
   ]
 }
