@@ -6,7 +6,7 @@ import { userLoginSchema } from '../../validation/formValidation'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from '../../axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
   const navigate =useNavigate()
@@ -69,9 +69,9 @@ const loginSubmit=(data)=>{
               </div>
 
               <a href="">forgot password</a>
-              <input type="submit" value="Login"  />
+              <input type="submit" value="Login"/>
              
-              <span>New to HungryHub? <a href="/signup">Create Account</a> </span>
+              <span>New to HungryHub? <Link to="/signup">Create Account</Link> </span>
             </form>
           </div>
         </div>
