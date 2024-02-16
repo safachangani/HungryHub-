@@ -12,7 +12,7 @@ function RestaurantNavbar() {
       </div>
       <div className="right">
         <NotificationsActiveOutlinedIcon />
-        <img src={User} alt="" srcset="" />
+        <img src={User} alt="profile" />
       </div>
     </div>
   )
