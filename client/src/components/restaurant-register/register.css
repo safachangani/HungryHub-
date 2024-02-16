@@ -1,0 +1,75 @@
+.img{
+    background-position: center center;
+    background-image: url(../../images/pexels-rajesh-tp-1600727.jpg);
+    background-repeat:  no-repeat;
+    background-size:  cover;
+    padding: 10rem 5rem;
+    box-shadow: inset 39rem 0px 20rem 20px #000000c9;
+}
+.img h1 ,.img span{
+    color: white;
+    
+}
+.img h1{
+    font-weight: 700;
+    font-size: 3rem;
+    margin:  0;
+}
+.img span{
+    font-size: large;
+    font-weight: 500;
+}
+.registration-form{
+    display: flex;
+    justify-content: center;
+}
+.registration-form form{
+    background-color: white;
+    width:75%;
+    padding: 2rem 4rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+.registration-form h3{
+    font-size: 1.6rem;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+.info input{
+    padding: 0.7rem;
+    font-size: large;
+}
+.info label{
+    font-size: 1.2rem;
+}
+.registration-form form input[type="submit"]{
+    margin-left: auto;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    background-color: #0D5BFC;
+    border: none;
+    color: white;
+    border-radius: 0.28rem;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+.info input:focus{
+    outline-color: #0d5dfc5a;
+    outline-width: 1px;
+}
+.registration-form form input[type="submit"]:active{
+    background-color: #003AB0;
+
+}
+.form{
+    display: flex;
+    justify-content: space-between;
+}
+.row1,.row2{
+    width: 40%;
+}

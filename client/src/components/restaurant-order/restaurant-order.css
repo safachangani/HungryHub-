@@ -1,0 +1,107 @@
+.container-order{
+    display: flex;
+    flex-wrap: wrap;
+}
+.order-get{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    width: 25%;
+    padding: 1rem;
+    gap: 1rem;
+    font-size: 15px;
+    border-radius: 0.4rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    margin: 1rem;
+}
+
+.ordered-item{
+    display: flex;
+    gap: .8rem;
+    border-bottom: 1.5px solid rgba(190, 190, 190, 0.354);
+    padding-bottom: 0.5rem;
+}
+.ordered-item img{
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.order{
+    display: flex;
+    flex-direction: column;
+}
+.request{
+    display: flex;
+    justify-content: space-between;
+}
+#order-name{
+    font-weight: 500;
+}
+#order-id{
+    color: #171717;
+    font-size: 12px;
+}
+#order-date{
+    font-size: 12px;
+    color: gray;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+#item-name{
+    font-weight: 500;
+}
+.amount{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    align-items: center;
+    font-size: 12px;
+}
+.amount span{
+    display: flex;
+    align-items: center;
+}
+.amount span svg,.request span svg{
+    transform: scale(0.6);
+    margin-top: 0;
+}
+#rupee{
+    margin-left: -5px;
+    
+}
+.request span svg{
+    transform: scale(0.75);
+    
+}
+.request span{
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+#request-icons{
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+}
+#request-icons a svg{
+    margin-top: 0;
+    display: block;
+}
+#reject ,#receive{
+    border: 1px solid;
+    text-align: center;
+    padding: .2rem;
+    border-radius: 0.3rem;
+}
+#reject{
+    border-color: rgba(255, 0, 0, 0.450);
+    color: rgba(255, 0, 0, 0.450);
+}
+#receive {
+    border-color: #60b246;
+    color: #60b246;
+}

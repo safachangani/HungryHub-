@@ -1,0 +1,149 @@
+.payment{
+    padding: 1rem 2rem;
+    background-color: white;
+    margin: 2rem 0rem;
+    display: flex;
+    color: #7c7c7c;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+.payment-info{
+    background-color: white;
+    display: flex;
+    flex-direction: column;   
+    margin: 2rem 0rem;
+    padding:  2rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+
+}
+.payment-info h3{
+    margin: 0;
+}
+.pay-method.img-pay-pal{
+  
+    height: 26px;
+    width: 20px;
+    background-size: cover;
+    
+}
+.order-payment{
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+  rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  margin: 2rem 0rem;
+}
+.methods{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.pay-method {
+    display: flex;
+    width: 25%;
+}
+.pay-method div{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.methods ul {
+    list-style-type: none;
+    display: flex;
+    padding: 1rem;
+  }
+  
+.methods ul li {
+    display: inline-block;
+    text-align: center;
+    font-size: smaller;
+    font-weight: 700;
+  }
+  
+  input[type="radio"][id^="cb"] {
+    display: none;
+  }
+  
+.methods ul li  label {
+    border: 1px solid #fff;
+    padding: 10px;
+    display: block;
+    position: relative;
+    margin: 10px;
+    cursor: pointer;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 1rem;
+  }
+  
+  label:before {
+    background-color: white;
+    color: white;
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    border: 1px solid grey;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 28px;
+    transition-duration: 0.4s;
+    transform: scale(0);
+  }
+  
+  label img {
+    height: 100px;
+    width: 100px;
+    transition-duration: 0.2s;
+    transform-origin: 50% 50%;
+  }
+  
+  :checked + label {
+    border-color: #60b246;
+    border-radius: 0;
+  }
+  
+  :checked + label:before {
+    content: "✓";
+    background-color:#60b246;
+    border: none;
+    transform: scale(1);
+  }
+  
+  :checked + label img {
+    transform: scale(0.9);
+    box-shadow: 0 0 5px #333;
+    z-index: -1;
+    border-radius: 1rem;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+     rgba(17, 17, 26, 0.1) 0px 8px 24px,
+      rgba(17, 17, 26, 0.1) 0px 16px 56px;
+
+  }
+
+.order-summary .total{
+    display: flex;
+}
+
+.order-summary button{
+  margin: auto;
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  font-weight: 700;
+  font-size: larger;
+  cursor: pointer;
+  background-color: #60b246;
+  color: white;
+}
+.order-summary button:focus{
+  background-color: #3a6e2a;
+
+}
+
+.order-summary p{
+  font-size: small;
+  color: #fc5d42;
+  margin: .5rem 0;
+  text-align: center;
+}

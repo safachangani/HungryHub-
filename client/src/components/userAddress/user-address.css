@@ -1,0 +1,314 @@
+.order-create{
+  display: flex;
+  flex-direction: column;
+}
+.user-address {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 3rem;
+  background-color: #ffffff;
+ 
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
+.user-address h3 {
+  margin: 0;
+}
+
+.user-address span {
+  font-size: .94rem;
+  color: gray;
+}
+
+.address-box {
+  padding: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  margin-top: 2rem;
+  display: flex;
+  width: 80%;
+  gap: 1rem;
+}
+
+.address-box:hover {
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px,
+    rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+
+.address {
+  flex-direction: column;
+  display: flex;
+  width: 50%;
+
+}
+
+.address h4 {
+  margin: 0;
+  font-weight: 500;
+}
+
+.address button {
+  margin-top: 3rem;
+  width: 50%;
+  padding: 0.6rem;
+  background-color: #ffff;
+  border: 1px solid rgb(50, 139, 50);
+  cursor: pointer;
+  color: green;
+  font-weight: 700;
+}
+
+.address-box i {
+  font-size: x-large;
+  color: #fc8019;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 430px;
+  height: 100vh;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  padding: 0.8rem 1.5rem;
+  left: -430px;
+  transition: left 0.3s ease-in-out;
+  z-index: 999;
+  overflow: scroll;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.close-sidebar button {
+  margin-top: 10px;
+  background-image: url(../../images/pot-312359_640.png);
+  border: none;
+  background-color: white;
+  margin-top: 0;
+  cursor: pointer;
+  padding: 0
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  display: none;
+}
+
+.sidebar.open+.overlay {
+  display: block;
+}
+
+.address-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.address-div input {
+  padding: .57rem;
+  font-size: medium;
+}
+
+.address-div input:focus,
+.address-div-row div input:focus {
+  outline: none;
+  border: #fc8019 1px solid;
+}
+
+.close-sidebar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.address-div {
+  gap: .1rem;
+}
+
+.address-div label {
+  font-size: 14px;
+}
+
+.address-nav form {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  font-size: 1rem;
+}
+
+.address-nav form span {
+  font-size: 14px;
+}
+
+.address-div-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.address-div-row label {
+  font-size: 14px;
+}
+
+.address-div-row div {
+  width: 48%
+}
+
+.address-div-row div input {
+  width: 100%;
+  height: 2rem;
+  padding: 1.1rem;
+}
+
+
+.button-radio {
+  float: left;
+  position: relative;
+  padding: 1.2rem;
+  text-align: center;
+}
+
+.button-radio label,
+.button-radio input {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.button-radio input[type="radio"] {
+  opacity: 0.011;
+  z-index: 100;
+  cursor: pointer;
+}
+
+.button-radio input[type="radio"]:checked+label {
+  background: black;
+  color: #fff;
+
+}
+
+.button-radio label {
+  cursor: pointer;
+  z-index: 90;
+  line-height: 2.45rem;
+}
+
+.button-radio {
+  border: 1px solid black;
+}
+
+#radio {
+  gap: 0;
+  margin-top: 0.08rem;
+}
+
+#work-other {
+  border-left: 0;
+}
+
+.address-nav form div button {
+  padding: 1rem;
+  border: none;
+  background-color: #fc8019;
+  color: #fff;
+  margin-top: 1rem;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 700;
+}
+
+.address-nav form button:active {
+  background-color: #fc7f19bc;
+}
+
+.error {
+  font-size: small;
+  color: #fc5d42;
+}
+
+
+.address-nav form button {
+  display: block;
+  position: relative;
+  transition: all .55s;
+
+}
+
+.address-nav form button span {
+  position: relative;
+  z-index: 2;
+}
+
+.address-nav form button:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #ff5500;
+  transition: all .95s;
+}
+
+
+.address-nav form button:focus:after {
+  width: 100%;
+}
+
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 100;
+  display: block;
+}
+
+#deliver {
+  width: 65%;
+  background-color: #60b246;
+  color: white;
+}
+
+.lds-dual-ring {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 25px;
+  height: 25px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  border-color: #fc8019 transparent #fc8019 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+

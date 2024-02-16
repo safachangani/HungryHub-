@@ -1,0 +1,127 @@
+.create-account {
+    display: flex;
+    margin: 2rem auto;
+    width: 80%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.food-image {
+    background-image: url(../../images/pexels-sharan-pagadala-12365.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #fff;
+    width: 55%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.sign-up {
+    padding: 3rem;
+    display: flex;
+    width: 45%;
+    flex-direction: column;
+    gap: .5rem;
+    background-color: #fff;
+
+}
+
+.sign-up h3,
+.sign-up h5 {
+    margin: 0;
+}
+
+.sign-up h3 {
+    font-weight: 500;
+}
+
+.sign-up h1 {
+    color: #fc8019;
+}
+
+.sign-up h5 {
+    font-weight: 100;
+    margin-bottom: .5rem;
+    color: #000000a3;
+}
+
+.sign-up form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    gap: .7rem;
+}
+
+.sign-up form input {
+    padding: .6rem;
+    font-size: 1rem;
+    outline: none;
+    border-radius: .3rem;
+    border: 1px solid;
+}
+
+.sign-up form input[type="text"]:focus, .sign-up form input[type="password"]:focus {
+    border: #e2761d 1px solid;
+    background-color: #fff;
+}
+
+.sign-up-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+
+}
+
+.sign-up form span {
+    font-size: smaller;
+}
+
+.sign-up form span a {
+    color: #fc8019;
+}
+
+.sign-up-form label {
+    font-size: .9rem;
+}
+
+.sign-up form a {
+    margin-left: auto;
+    font-size: small;
+
+}
+
+.sign-up form input[type="submit"] {
+    background-color: #fc8019;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.sign-up form input[type="submit"]:active {
+    background-color: #fd9642cc;
+
+
+}
+
+#sign-up-btn {
+    margin-top: 1rem;
+}
+
+.sign-up-form p {
+    font-size: small;
+    color: #fc5d42;
+}
+.sign-up form input::-webkit-input-placeholder {
+    /* opacity: 0;
+    transition: opacity 0.3s ease-out; */
+    font-size: small;
+    letter-spacing: .05rem;
+  }
+  .sign-up form input[type="text,password"]:active {
+    border: #e2761d 1px solid;
+    background-color: #fff;
+}
+
+input[type="text"]:focus {
+  background-color: #ffff;
+}
+
+

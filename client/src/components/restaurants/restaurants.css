@@ -1,0 +1,152 @@
+.container {
+    margin: 1rem 2rem;
+}
+
+.restaurants {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-options button {
+    border: none;
+    font-size: medium;
+    color: rgba(0, 0, 0, 0.657);
+    cursor: pointer;
+}
+
+button:hover {
+    color: black;
+}
+
+.filter-options {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.filter-options li::after {
+    content: " ";
+    display: block;
+
+    width: 0%;
+    height: 1px;
+
+    background-color: #fe8522a4;
+
+    transition: width 0.4s;
+}
+
+.filter-options li:hover::after {
+    width: 100%;
+}
+
+#filter-icon:hover {
+    color: #fc8019;
+}
+
+#filter-icon i {
+    color: #fc8019;
+}
+
+.restaurant-details {
+    width: 22%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.restaurant-details img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+
+}
+
+.restaurant-details h3,
+p {
+    margin: 0;
+}
+
+.restaurant-review {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: .5rem 0;
+    font-size: .76rem;
+}
+
+#rate {
+    display: flex;
+    justify-content: space-between;
+    background-color: #68a720;
+    align-items: center;
+    color: white;
+    border-radius: 0.2rem;
+    padding: 0.08rem .2rem;
+    gap: 0.2rem;
+}
+
+.restaurant-details h3 {
+    margin-top: 0.6rem
+}
+
+.restaurant-details p {
+    font-size: .9rem;
+}
+
+.restaurant-details button {
+    border: 1px solid;
+    padding: 0.6rem;
+    width: 70%;
+    margin: auto;
+    border-color: #ff9800a6;
+    margin: 1rem auto;
+    border-radius: 1rem;
+    background-color: white;
+    cursor: pointer;
+}
+
+.restaurant-details button:hover {
+    transition: all .5s ease;
+    transition-duration: 80ms;
+    -webkit-transition: all .2s ease;
+    box-shadow: none;
+}
+
+.restaurant-details button:active {
+    width: 65%;
+    background: hsl(26, 100%, 51%);
+
+
+}
+
+.restaurant-details:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.fa-star {
+    font-size: small;
+}
+
+#currency {
+    display: flex;
+    align-items: center;
+}
+
+#currency svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin: 0
+}

@@ -1,0 +1,5 @@
+.user-cart{
+    display: flex;
+    gap: 2rem;
+    margin: 2rem;
+}

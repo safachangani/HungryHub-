@@ -1,0 +1,47 @@
+.rest-nav-bar{
+    display: flex;
+    height: fit-content;
+    justify-content: space-between;
+    margin: 2rem;
+}
+.right img{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.right{
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+.right svg {
+    margin-top: 0;
+    cursor: pointer;
+}
+.rest-nav-bar div input{
+    border: none; 
+    outline: none;
+    width: 80%;
+    padding: .5rem;
+    padding-left: 2.2rem;
+    border-radius: 0.5rem;
+    font-size:medium;
+    transition: width 0.3s ease; 
+}
+.rest-nav-bar div input:focus{
+    width: 100%;
+    
+}
+
+.icon-input {
+    position: relative;
+    display: inline-block;
+  }
+  
+.s-icon{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+  }
