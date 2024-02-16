@@ -36,7 +36,7 @@ function RestaurantOrder() {
                 {getOrder.menuItems.map((menu)=>(
             <div className="ordered-item" key={menu._id}>
 
-                    <img src={`http://localhost:9000/${menu.imageName}`} alt="" />
+                    <img src={`https://hungryhub-20xe.onrender.com/${menu.imageName}`} alt="" />
                 <div className="item">
                     <span id='item-name'>{menu.itemName}</span>
                     <div className="amount">

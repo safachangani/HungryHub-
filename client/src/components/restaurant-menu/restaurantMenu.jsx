@@ -25,7 +25,7 @@ function RestaurantMenu() {
         return(
 
           <div className="menu-cart" key={menu._id}>
-             <img src={`http://localhost:9000/${menu.imageName}`} alt="" />
+             <img src={`https://hungryhub-20xe.onrender.com/${menu.imageName}`} alt="" />
             <div className='item-details'>
                 <span className="item-name">{menu.itemName}</span>
                 <div className="item-cat-price">

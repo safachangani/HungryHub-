@@ -87,7 +87,7 @@ function MenuList() {
               <h5>{menu.price}</h5>
             </div>
             <div className="menu-image">
-              <img src={`http://localhost:9000/${menu.imageName}`} alt="" />
+              <img src={`https://hungryhub-20xe.onrender.com/${menu.imageName}`} alt="" />
               <div className="add-buttons">
                 {getCartItem && getCartItem.quantity > 0 ? (
 
