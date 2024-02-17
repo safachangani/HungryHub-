@@ -23,16 +23,16 @@ function App() {
         
           <UserProvider>
         <Routes>
-          <Route path='/restaurant-signup' element={<RestaurantAccountCreation/>}/>
-          <Route path='/restaurant-login' element={<RestaurantAccountLogin/>}/>
-          <Route path='/restaurant-register' element={<Register />} />
-          <Route path='/restaurant-addMenu' element={<RestaurantAddMenu />} />
-          <Route path='/restaurant-control-center' element={<RestaurantControlPanel/>}/>
           <Route path='/' element={<Home />} />
           <Route path='/signup' element={<UserSignUP />} />
           <Route path='/login' element={<UserLogin />} />
           <Route path='/menu/:restId' element={<Menu />} />
           <Route path='/add-to-cart' element={<AddToCart/>}/>   
+          <Route path='/restaurant-signup' element={<RestaurantAccountCreation/>}/>
+          <Route path='/restaurant-login' element={<RestaurantAccountLogin/>}/>
+          <Route path='/restaurant-register' element={<Register />} />
+          <Route path='/restaurant-addMenu' element={<RestaurantAddMenu />} />
+          <Route path='/restaurant-control-center' element={<RestaurantControlPanel/>}/>
         </Routes>
           </UserProvider>
       </Router>
