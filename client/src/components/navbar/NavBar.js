@@ -89,6 +89,7 @@ function NavBar() {
                         <li><Link to="#">Profile</Link></li>
                         <li><Link to="#">Orders</Link></li>
                         <li><Link to="/login">{userName === 'Account' ? 'Login' : 'Logout'}</Link></li>
+                        <li><Link to="/restaurant-register">Add restaurant</Link></li>
                     </ul>
                 </li>
 
