@@ -61,7 +61,7 @@ function SignUp() {
 
             </div>
             <input type="submit" id='sign-up-btn' value="Sign Up" />
-            <span>do you have account?<a href="/login"> Login</a></span>
+            <span>do you have account?<Link to="/login"> Login</Link></span>
           </form>
         </div>
       </div>
