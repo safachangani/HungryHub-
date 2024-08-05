@@ -47,9 +47,15 @@
   background-color: #fc8019;
   color: white;
   border: none;
-  padding: .6rem;
+  padding: .3rem;
   font-size: medium;
   font-weight: 700;
   cursor: pointer;
   border-radius: .3rem;
+}
+.order-success-buttons{
+  display: flex;
+  /* gap: 1rem; */
+  width: 70%;
+  justify-content: space-around;
 }

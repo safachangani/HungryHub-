@@ -20,6 +20,7 @@ router.get('/', function (req, res, next) {
           menus: menus
         }
       })
+    
       res.status(200).json({ massage: 'restaurant added succesfully', restaurantData })
     })
   }).catch(() => {
@@ -60,15 +61,15 @@ function authenticationToken(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1]
   if (token === 'null') return res.sendStatus(401)
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    console.log(decoded, 13);
+    // console.log(decoded, 13);
     req.user = decoded
     next()
   })
 }
 
 router.post('/menu/:restId', authenticationToken, (req, res) => {
-  console.log('wnt check user' + req);
-  console.log('sa',req.user._id);
+ 
+  // console.log('sa',req.user._id);
   const cartItems = {
     userId: new ObjectId(req.user._id),
     restaurantId: new ObjectId(req.body.menu.restaurantId),
@@ -93,7 +94,7 @@ router.post('/menu/:restId', authenticationToken, (req, res) => {
 })
 
 router.get('/add-to-cart/', authenticationToken, async (req, res) => {
-  console.log(req.user._id);
+  // console.log(req.user._id);
   userController.getCartItems(req.user._id).then((response) => {
     res.status(200).json({ response })
   }).catch(() => {
@@ -109,8 +110,8 @@ router.post('/get-quantity', (req, res) => {
   userController.updateCount(userId, itemId, count).then((response) => {
     userController.getQuantity(userId, itemId).then(async (item) => {
       let totalPrice = await userController.getTotalPrice(userId)
-      console.log(totalPrice);
-      console.log(item.quantity);
+      // console.log(totalPrice);
+      // console.log(item.quantity);
       if (item.quantity === 0) {
         const removeditem = await userController.removeItem(req.body.userId, req.body.itemId)
       }
@@ -135,7 +136,7 @@ router.post('/remove-item', (req, res) => {
 
 router.post('/get-total-count', authenticationToken, (req, res) => {
   userController.getTotalCount(req.body.userId).then((response) => {
-    console.log(response, 'quantity');
+    // console.log(response, 'quantity');
     if (response == undefined) {
       return response = 0
     }
@@ -154,7 +155,7 @@ router.post('/get-count', authenticationToken, (req, res) => {
 })
 
 router.post('/update-address', authenticationToken, (req, res) => {
-  console.log(req.body.address, req.user._id);
+  // console.log(req.body.address, req.user._id);
   const userAddress = {
     StreetAddress: req.body.address.StreetAddress,
     City: req.body.address.City,
@@ -170,25 +171,26 @@ router.post('/update-address', authenticationToken, (req, res) => {
 })
 
 router.post('/create-order', authenticationToken, (req, res) => {
-  console.log(req.body,'body');
+  // console.log(req.body,'body');
   let paymentMethod = req.body.data.test
-  console.log(paymentMethod);
+  // console.log(paymentMethod);
   userController.getOrderDetails(req.user._id, paymentMethod, req.body.totalPrice).then((response) => {
-    console.log(response,'re');
+    // console.log(response,'re');
     let resId=response.restaurantId;
+    // console.log(resId,"here is the restid");
     userController.createOrder(req.user._id, response).then(async (insertedId) => {
-      console.log(resId,'id');
+      // console.log(resId,'id');
       restaurantController.getOrder(resId).then((response)=>{
-        
+          // console.log(response,"i got the order");
       })
       console.log(insertedId);
       if (response.paymentMethod == 'razorpay') {
         console.log(true);
         razorpay = await userController.generateRazorpay(insertedId, response.totalPrice)
-        res.status(200).json({ status: response.status, razorpay })
+        res.status(200).json({ status: response.status,orderId: response._id, razorpay })
       }
       else {
-        res.status(200).json({ status: response.status })
+        res.status(200).json({ status: response.status,orderId: response._id })
       }
     }).catch(() => {
       res.status(500).json({ message: 'server error' })
@@ -205,11 +207,47 @@ router.post('/verifyRazorPayment', authenticationToken, (req, res) => {
   userController.verifyRazorPayment(req.body).then((response) => {
     console.log();
     userController.updateOrderStatus(req.user._id).then((response) => {
-      console.log(response);
+      // console.log(response);
       res.status(200).json({ status: 'placed' })
     }).catch(() => {
       res.status(500).json({ message: 'server error' })
     })
   })
-})
+}),
+
+
+router.get('/user-address', authenticationToken, (req, res) => {
+  const userId = req.user._id; // Move this line to the top
+  userController.getAddress(userId).then((response) => {
+    console.log("response.......",response);
+    res.status(200).json({ address: response });
+  }).catch((error) => {
+    console.error("Error fetching user address:", error.message);
+    res.status(500).json({ message: 'server error', error: error.message });
+  });
+});
+router.post('/clear-cart', authenticationToken,(req, res) => {
+  try {
+      const userId = req.user._id; // Get the user ID from the request (authentication middleware)
+      userController.clearCart(userId).then(()=>{
+        res.status(200).json({ message: 'Cart cleared successfully' });
+
+      })
+  } catch (error) {
+      console.error('Error clearing cart:', error);
+      res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/get-order/:orderId',authenticationToken, (req, res) => {
+  const orderId = req.params.orderId;
+  console.log("Checking for order ID:", orderId);
+  userController.getOrderData(orderId).then((orderData) => {
+    res.status(200).json(orderData);
+  }).catch((error) => {
+    console.error("Error fetching order:", error);
+    res.status(500).json({ error: "Failed to fetch order" });
+  });
+});
+
 module.exports = router;

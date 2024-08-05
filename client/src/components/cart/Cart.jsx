@@ -126,7 +126,7 @@ function Cart() {
                             <div className="food-description">
 
                                 <div className="cart-element-image">
-                                    <img src={`https://hungryhub-20xe.onrender.com/${item.imageName}`} alt="" />
+                                    <img src={`http://localhost:9001/hungryhub/uploads/${item.imageName}`} alt="" />
                                 </div>
                                 <div className="description">
                                     <h4>{item.itemName}</h4>

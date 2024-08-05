@@ -20,9 +20,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/hungryhub/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors({
-  origin: 'https://hungryhub-client.onrender.com',
+  origin: 'http://localhost:3000',
   credentials: true,
 }));
 app.use(express.static('uploads'))

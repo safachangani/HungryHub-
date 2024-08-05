@@ -17,6 +17,7 @@
 .filter-options button {
     border: none;
     font-size: medium;
+    z-index: -1;
     color: rgba(0, 0, 0, 0.657);
     cursor: pointer;
 }

@@ -52,7 +52,7 @@ function NavBar() {
     return (
         <div className='navbar'>
             <div className='nav location'>
-                <a href="/">Icon</a>
+                <a href="/">HungryHub</a>
                 <Link to="/">Location</Link>
             </div>
 
@@ -80,6 +80,14 @@ function NavBar() {
                         <span>Help</span>
                     </Link>
                 </li>
+                <Link to={{pathname: `/add-to-cart`, state:{userName}}} className='search icon' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-bag">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z">
+                        </path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    {totalCount !== 0 && <span className="count" style={countStyle}>{totalCount}</span>}
+                    <span>Cart</span>
+                </Link>
                 <li className="dropdown">
                     <Link to="/" className='search icon'>
                         <i className="fa-regular fa-user"></i>
@@ -89,18 +97,9 @@ function NavBar() {
                         <li><Link to="#">Profile</Link></li>
                         <li><Link to="#">Orders</Link></li>
                         <li><Link to="/login">{userName === 'Account' ? 'Login' : 'Logout'}</Link></li>
-                        <li><Link to="/restaurant-register">Add restaurant</Link></li>
                     </ul>
                 </li>
 
-                <Link to={{pathname: `/add-to-cart`, state:{userName}}} className='search icon' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-bag">
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z">
-                        </path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                    {totalCount !== 0 && <span className="count" style={countStyle}>{totalCount}</span>}
-                    <span>Cart</span>
-                </Link>
             </ul>
         </div>
 

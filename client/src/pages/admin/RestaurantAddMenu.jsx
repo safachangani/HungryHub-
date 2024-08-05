@@ -3,6 +3,7 @@ import AddMenu from '../../components/restaurant-register/CreateMenu'
 function RestaurantAddMenu() {
   return (
     <>
+      
       <AddMenu />
     </>
   )

@@ -156,6 +156,51 @@ module.exports = {
             })
         })
     },
+    deleteMenu:(id)=>{
+        return new Promise((resolve, reject) => {
+            const objectId = new ObjectId(id)
+            db.get().collection(collections.MENU_DETAILS).deleteOne({ _id: objectId }).then((result) => {
+              if (result.deletedCount === 0) {
+                reject(new Error('No document found with that ID.'));
+              } else {
+                resolve(result);
+              }
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+    },
+    updateMenu:(menuId,updatedData)=>{
+        console.log(menuId);
+        return new Promise((resolve,reject)=>{
+            const objectId = new ObjectId(menuId)
+            const updateFields = {
+                ...(updatedData.itemName && { itemName: updatedData.itemName }),
+                ...(updatedData.category && { category: updatedData.category }),
+                ...(updatedData.price && { price: updatedData.price }),
+                ...(updatedData.restaurantId && { restaurantId: updatedData.restaurantId }),
+                // ...(updatedData.imageName && { imageName: updatedData.imageName }),
+              }
+            db.get()
+            .collection(collections.MENU_DETAILS)
+            .updateOne(
+              { _id: objectId }, // Filter criteria
+              { $set: updateFields } // The new data to update
+            )
+            .then(result => {
+              if (result.modifiedCount === 0) {
+                reject(new Error('No document found with that ID or no changes made.'));
+              } else {
+                resolve(result);
+              }
+            })
+            .catch(error => {
+              reject(error);
+            });
+        })
+    },
+   
     getProfile:(resId)=>{
         return new Promise(async(resolve,reject)=>{
          let restaurantProfile = await db.get().collection(collections.RESTAURANT_REGISTER).findOne({_id:new ObjectId(resId)})

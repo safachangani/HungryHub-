@@ -13,6 +13,7 @@ function Payment(props) {
     console.log(props.totalPrice);
     const totalPrice=props.totalPrice
     const [orderSuccess,setOrderSuccess] = useState(false)
+    const [orderId, setOrderId] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(PaymentScheme)
     })
@@ -25,15 +26,40 @@ function Payment(props) {
           }
         }).then((response)=>{
             console.log(response.data.status);
-            if (response.data.status==='placed') {
-                setTimeout(()=>{
-
-                    setOrderSuccess(true)
-                },700)
+            if (response.data.status === 'placed') {
+                const placedOrderId = response.data.orderId; // Get the orderId from the response
+                console.log(response.data,"ywwye");
+                setOrderId(placedOrderId);
+                // Order is placed, now clear the cart
+                axios.post('/users/clear-cart', {}, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then((response) => {
+                    setTimeout(() => {
+                        setOrderSuccess(true);
+                    }, 700);
+                }).catch((error) => {
+                    console.error("Error clearing cart:", error);
+                    // Handle the error as needed
+                });
             }
             else{
                 console.log(response.data.razorpay);
                 if (response.data.razorpay) {
+                    axios.post('/users/clear-cart', {}, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then((response) => {
+                        setTimeout(() => {
+                            setOrderSuccess(true);
+                        }, 700);
+                    }).catch((error) => {
+                        console.error("Error clearing cart:", error);
+                        // Handle the error as needed
+                    });
+                    setOrderId(response.data.orderId);
                     razorpayment(response.data.razorpay)
                 }
             }
@@ -152,7 +178,8 @@ function Payment(props) {
                     </div>
                 </div>
             </div>
-          {orderSuccess &&  <OrderSuccess/>}
+            {console.log(orderId,"dsfrf")}
+            {orderSuccess && <OrderSuccess orderId={orderId} />}
         </div>
     )
 }

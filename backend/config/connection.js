@@ -6,7 +6,7 @@ const state = {
 };
 
 // Connection URL
-const url = 'mongodb+srv://csafa8001:Mongo8001c@cluster0.8wxb2ny.mongodb.net/?tls=true';
+const url ='mongodb://localhost:27017';
 const dbName = 'HungryHub';
 
 module.exports.connect = async function () {
@@ -14,7 +14,7 @@ module.exports.connect = async function () {
         // Use connect method to connect to the server
         state.client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
         await state.client.connect();
-        console.log('MongoDB connected successfully to server');
+        console.log('MongoDB connected');
         state.db = state.client.db(dbName);
         return 'done.';
     } catch (err) {

@@ -8,11 +8,12 @@ import UserSignUP from './pages/user/UserSignUP';
 import UserLogin from './pages/user/UserLogin';
 import AddToCart from './pages/user/AddToCart';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-// import { UserLoginContext } from './components/context/useContext';
 import { UserProvider } from './components/context/useContext';
 import RestaurantControlPanel from './pages/admin/RestaurantControlPanel';
 import RestaurantAccountCreation from './pages/admin/RestaurantAccountCreation';
 import RestaurantAccountLogin from './pages/admin/RestaurantAccountLogin';
+import LandingPage from './pages/LandingPage';
+import OrderDetails from './pages/user/OrderDetails';
 function App() {
     // const [loggedIn,setLoggedIn] = useState(null)
   return (
@@ -23,7 +24,8 @@ function App() {
         
           <UserProvider>
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/home' element={<Home />} />
           <Route path='/signup' element={<UserSignUP />} />
           <Route path='/login' element={<UserLogin />} />
           <Route path='/menu/:restId' element={<Menu />} />
@@ -33,6 +35,7 @@ function App() {
           <Route path='/restaurant-register' element={<Register />} />
           <Route path='/restaurant-addMenu' element={<RestaurantAddMenu />} />
           <Route path='/restaurant-control-center' element={<RestaurantControlPanel/>}/>
+          <Route path='/order-details' element={<OrderDetails></OrderDetails>}></Route>
         </Routes>
           </UserProvider>
       </Router>

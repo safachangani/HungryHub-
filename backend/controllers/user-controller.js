@@ -8,8 +8,8 @@ const crypto = require('crypto');
 const { log } = require('console');
 
 var instance = new Razorpay({
-    key_id: process.env.KEY_ID,
-    key_secret: process.env.KEY_SECRET,
+    key_id:'rzp_test_rgK41u4XoUpxl8',
+    key_secret: '9vPKQ8U7tCD2NfDtxbsVO2oS',
 });
 
 module.exports = {
@@ -54,15 +54,15 @@ module.exports = {
         })
     },
     addToCart: (cartItems) => {
-        console.log(cartItems.userId, "check ");
+      
         return new Promise(async (resolve, reject) => {
             if (cartItems.userId) {
                 const cart = await db.get().collection(collections.CART_COLLECTION).findOne({ userId: cartItems.userId })
-                console.log(cart, 'i am cart broooooooh');
+                
                 const restaurant = await db.get().collection(collections.CART_COLLECTION).findOne({ restaurantId: cartItems.restaurantId })
                 if (cart) {
                     let itemExist = cart.cartItem.findIndex(item => item.itemId.equals(cartItems.cartItem[0].itemId))
-                    console.log(itemExist);
+                    
                     if (itemExist != -1) {
                         if (cart.cartItem[itemExist].quantity == 1 && cartItems.cartItem[0].quantity == -1) {
                             db.get().collection(collections.CART_COLLECTION).updateOne({ userId: cartItems.userId, 'cartItem.itemId': cartItems.cartItem[0].itemId }, {
@@ -111,13 +111,13 @@ module.exports = {
             db.get().collection(collections.CART_COLLECTION).updateOne({ userId: new ObjectId(userId), 'cartItem.itemId': new ObjectId(itemId) }, {
                 $inc: { 'cartItem.$.quantity': count }
             }).then((response) => {
-                console.log(response);
+                
                 resolve(response)
             })
         })
     },
     getQuantity: (userId, itemId) => {
-        console.log(userId,'userid');
+       
         return new Promise((resolve, reject) => {
             db.get().collection(collections.CART_COLLECTION).aggregate([
                 {
@@ -147,7 +147,7 @@ module.exports = {
                     }
                 }
             ]).toArray().then((response) => {
-                console.log(response[0], "double");
+               
                 resolve(response[0])
             })
 
@@ -237,14 +237,14 @@ module.exports = {
             db.get().collection(collections.CART_COLLECTION).updateOne({ userId: new ObjectId(userId), 'cartItem.itemId': new ObjectId(itemId) }, {
                 $pull: { cartItem: { itemId: new ObjectId(itemId) } }
             }).then((response) => {
-                console.log(response, "checking");
+                
                 resolve()
             })
         })
     },
     getTotalCount: (userId) => {
         let user = new ObjectId(userId)
-        console.log('check  userId', user);
+       
         return new Promise((resolve, reject) => {
             db.get().collection(collections.CART_COLLECTION).aggregate([
                 {
@@ -268,7 +268,7 @@ module.exports = {
                     }
                 }
             ]).toArray().then((response) => {
-                console.log(response, 'got id');
+                
                 resolve(response[0])
             })
         })
@@ -284,7 +284,7 @@ module.exports = {
         })
     },
     getOrderDetails: (userId, paymentMethod, totalPrice) => {
-        console.log(userId,paymentMethod,totalPrice,'g');
+      
         return new Promise((resolve, reject) => {
             let status = paymentMethod == 'cod' ? 'placed' : 'pending'
             db.get().collection(collections.CART_COLLECTION).aggregate([
@@ -338,13 +338,12 @@ module.exports = {
     createOrder: (userId, orderData) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.ORDER_COLLECTION).insertOne(orderData).then((response) => {
-                console.log(response)
                 resolve(response.insertedId)
             })
         })
     },
     updateUserAddress: (address, userId) => {
-        console.log(userId);
+        
         return new Promise((resolve, reject) => {
             db.get().collection(collections.USERS).updateOne({ _id: new ObjectId(userId) }, {
                 $set: { "Address": address }
@@ -357,34 +356,43 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             let orderIdString = orderId.toString();
-            console.log(orderIdString);
+    
             var options = {
                 amount: totalPrice * 100,  // amount in the smallest currency unit
                 currency: "INR",
                 receipt: orderIdString
             };
             instance.orders.create(options, function (err, order) {
-                console.log(order);
+                if (err || !order) {
+                    console.error("Error creating Razorpay order:", err);
+                    reject(err || new Error("Failed to create order"));
+                    return;
+                }
+                
                 db.get().collection(collections.ORDER_COLLECTION).updateOne({ _id: orderId }, {
                     $set: {
                         razorpayId: order.id
                     }
                 }).then(() => {
-                    console.log(order.id);
-                    resolve(order)
-                })
+                  
+                    resolve(order);
+                }).catch(dbErr => {
+                    console.error("Error updating database:", dbErr);
+                    reject(dbErr);
+                });
             });
+            
         })
     },
     verifyRazorPayment: (details) => {
-        console.log(details.response.razorpay_payment_id, 'sssssssssssss');
+       
         return new Promise((resolve, reject) => {
             const data = details.order.id + "|" + details.response.razorpay_payment_id;
             const hmac = crypto.createHmac('sha256', process.env.KEY_SECRET);
             hmac.update(data);
             const generated_signature = hmac.digest('hex');
             if (generated_signature == details.response.razorpay_signature) {
-                console.log('payment is successful');
+                
                 resolve({ status: 'placed' })
             }
         })
@@ -394,10 +402,55 @@ module.exports = {
             db.get().collection(collections.ORDER_COLLECTION).updateOne({ userId: new ObjectId(userId) }, {
                 $set: { 'status': 'placed' }
             }).then((response) => {
-                console.log(response);
+                
                 resolve(response)
             })
         })
+    },
+    getAddress:(userId)=>{
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.USERS).findOne({ _id: new ObjectId(userId) })
+              .then((user) => {
+                if (user) {
+                    
+                  resolve(user.Address); // Assuming 'address' is a field in the user document
+                } else {
+                  reject('User not found');
+                }
+              })
+              .catch((error) => {
+                reject(error);
+              });
+          });
+    },
+    clearCart : (userId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.CART_COLLECTION).deleteOne(
+                { userId: new ObjectId(userId) }
+            ).then((result) => {
+               
+                resolve(result);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    
+    },
+    getOrderData:(orderId)=>{
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.ORDER_COLLECTION).findOne(
+              { _id: new ObjectId(orderId) }
+            ).then((order) => {
+              if (!order) {
+                return reject(new Error('Order not found'));
+              }
+              console.log(order);
+              resolve(order);
+            }).catch((err) => {
+              reject(err);
+            })
+        });
     }
+    
+    
 }
-

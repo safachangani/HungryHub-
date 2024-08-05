@@ -87,7 +87,16 @@ restaurantsCollecter.getMenu(req.user._id).then((response)=>{
   res.status(500).json({message:'server error'})
 })
 })
-
+router.delete('/restaurant-menu/:id',authenticationToken,(req,res)=>{
+  restaurantsCollecter.deleteMenu(req.params.id).then((response)=>{
+    console.log(response);
+    res.status(200).json({ message: 'Menu item successfully deleted' });
+  })
+  .catch((error) => {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ message: 'An error occurred while deleting the menu item', error: error.message });
+  });
+})
 router.get('/restaurant-profile',authenticationToken,(req,res)=>{
   restaurantsCollecter.getProfile(req.user._id).then((profile)=>{
     console.log(profile);
@@ -95,6 +104,23 @@ router.get('/restaurant-profile',authenticationToken,(req,res)=>{
   }).catch(()=>{
     res.status(500).json({message:'server error'})
   })
+})
+router.put('/restaurant-menu/:menuId',authenticationToken,(req,res)=>{
+  const updatedData = req.body;
+  // console.log("menuid",req.params.restId);
+restaurantsCollecter.updateMenu(req.params.menuId,updatedData).then((response)=>{
+  if (response.modifiedCount > 0) {
+    // Successfully updated the item
+    res.status(200).json({ message: 'Menu item successfully updated' });
+  } else {
+    // No document was modified
+    res.status(404).json({ message: 'Menu item not found or no changes made' });
+  }
+})
+.catch(error => {
+  console.error('Error updating menu item:', error);
+  res.status(500).json({ message: 'An error occurred while updating the menu item', error: error.message });
+})
 })
 
 module.exports = router;

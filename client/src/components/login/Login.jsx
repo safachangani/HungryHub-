@@ -23,7 +23,7 @@ const loginSubmit=(data)=>{
     if(response.data.response.user){
       let userName=response.data.response.user.FullName
       let userId= response.data.response.user._id
-      navigate('/',{state:{userName,userId}})
+      navigate('/home',{state:{userName,userId}})
       // navigate('/add-to-cart/:userId',{state:{userName,userId}})
       console.log(userName);
 

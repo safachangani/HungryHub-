@@ -14,8 +14,6 @@ function RestaurantSidebar({handlePageChange}) {
     
   };
 
-
-
   return (
     <div className="control">
       <div className="restaurant-profile">

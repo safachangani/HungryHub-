@@ -62,7 +62,7 @@ svg{
     border-radius: 0.3rem;
     padding: 0.9rem 1.5rem;
     padding-left: 0;
-   
+    right: 0;
     font-weight: 100;
     box-shadow: #ce5811b3 0px 2px 7px 0px;
 }

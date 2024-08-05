@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance= axios.create({
-    baseURL:"https://hungryhub-20xe.onrender.com"
+    baseURL:"http://localhost:9001/"
 })
 
 export default instance

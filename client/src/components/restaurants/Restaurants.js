@@ -97,7 +97,7 @@ function Restaurants() {
           return (
             <div className="restaurant-details" key={restaurant._id}>
 
-              <img src={`https://hungryhub-20xe.onrender.com/uploads/${restaurant.menus[0].imageName}`} alt="" />
+              <img src={`http://localhost:9001/hungryhub/uploads/${restaurant.menus[0].imageName}`} alt="" />
 
               <h3>{restaurant.RestaurantName}</h3>
               <p>{restaurant.CuisineType}</p>
