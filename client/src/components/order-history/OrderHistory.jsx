@@ -47,7 +47,7 @@ function OrderHistory() {
                   <div key={item.itemId} className="order-item">
                     {item.menuItem && <img src={`http://localhost:9001/hungryhub/uploads/${item.menuItem.imageName}`} alt={item.menuItem.itemName} className="order-item-image" />}
                     <div className="order-item-details">
-                      <span>{item.menuItem ? item.menuItem.itemName : 'Item not found'}</span>
+                      <span>{item.menuItem ? item.menuItem.itemName : 'No Longer Available'}</span>
                       <p>Quantity: {item.quantity}</p>
                       <p>Price: ₹{item.price}</p>
                     </div>

@@ -4,7 +4,7 @@ import RestaurantPanel from '../../components/restaurant-panel/RestaurantPanel'
 import RestaurantSidebar from '../../components/restaurant-sidebar/RestaurantSidebar'
 
 function RestaurantControlPanel() {
-  const [selectedPage,setSelectedPage]=useState('Dashboard')
+  const [selectedPage,setSelectedPage]=useState('Menu')
 
   const handlePageChange=(page)=>{
     setSelectedPage(page)
