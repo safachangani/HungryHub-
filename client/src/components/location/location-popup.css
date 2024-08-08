@@ -1,0 +1,55 @@
+.location-popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 22;
+}
+
+.location-popup {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  float: right;
+  cursor: pointer;
+}
+
+.location-details,
+.error-message {
+  text-align: center;
+}
+.location-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.address-content {
+  font-size: 1rem;
+    color: #333333e8;
+    font-style: italic;
+}
+
+.delivery-type {
+  font-weight: bold;
+  color: #4caf50;
+  margin-top: 10px;
+}
+

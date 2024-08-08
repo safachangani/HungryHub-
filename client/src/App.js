@@ -14,6 +14,8 @@ import RestaurantAccountCreation from './pages/admin/RestaurantAccountCreation';
 import RestaurantAccountLogin from './pages/admin/RestaurantAccountLogin';
 import LandingPage from './pages/LandingPage';
 import OrderDetails from './pages/user/OrderDetails';
+import Faq from './components/faq/Faq';
+import MyOrders from './pages/user/MyOrders';
 function App() {
     // const [loggedIn,setLoggedIn] = useState(null)
   return (
@@ -36,6 +38,8 @@ function App() {
           <Route path='/restaurant-addMenu' element={<RestaurantAddMenu />} />
           <Route path='/restaurant-control-center' element={<RestaurantControlPanel/>}/>
           <Route path='/order-details' element={<OrderDetails></OrderDetails>}></Route>
+          <Route path='/faq' element={<Faq/>} />
+          <Route path="/order-history" element={<MyOrders />} />
         </Routes>
           </UserProvider>
       </Router>

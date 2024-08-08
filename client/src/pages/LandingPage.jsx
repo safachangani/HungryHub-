@@ -14,6 +14,9 @@ import plate from '../images/plate.png'
 import mobile from '../images/Food Mobile App Design.jpeg'
 import { Link } from 'react-router-dom';
 const LandingPage = () => {
+  const scrollToFooter = () => {
+    document.getElementById('footer').scrollIntoView({ behavior: 'smooth' });
+  };
   return (
     <div className='land'>
       <header>
@@ -25,7 +28,7 @@ const LandingPage = () => {
             <ul>
               <li><Link to={'/home'}>Home</Link></li>
               {/* <li><a href="#">Menu</a></li> */}
-              <li><a href="#">Contact</a></li>
+              <li><a href="#" onClick={scrollToFooter}>Contact</a></li>
             </ul>
           </nav>
           <div className="auth-options">
@@ -73,7 +76,7 @@ const LandingPage = () => {
           <h2>Popular Restaurants</h2>
           <div className="restaurant-cards">
             <div className="restaurant-card">
-              <img src={burgimg} alt="Restaurant 1" className="restaurant-image" />
+              <img src='https://i.pinimg.com/474x/6c/65/60/6c656003534557d1b2b6d478f3bdbfd2.jpg' alt="Restaurant 1" className="restaurant-image" />
               <div className="restaurant-info">
                 <h3>Italiano Pizzeria</h3>
                 <p>Authentic Italian pizzas and pastas</p>
@@ -81,7 +84,7 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="restaurant-card">
-              <img src={burgimg} alt="Restaurant 2" className="restaurant-image" />
+              <img src='https://i.pinimg.com/474x/a8/5a/45/a85a456403479d31797655ebc1bb9082.jpg' alt="Restaurant 2" className="restaurant-image" />
               <div className="restaurant-info">
                 <h3>Sushi Master</h3>
                 <p>Delicious sushi rolls and Japanese cuisine</p>
@@ -89,7 +92,7 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="restaurant-card">
-              <img src={burgimg} alt="Restaurant 3" className="restaurant-image" />
+              <img src="https://i.pinimg.com/564x/64/ec/9b/64ec9beb3df73f5d66f0e6a176c466f1.jpg" alt="Restaurant 3" className="restaurant-image" />
               <div className="restaurant-info">
                 <h3>Mexican Fiesta</h3>
                 <p>Spicy tacos and authentic Mexican flavors</p>
@@ -154,7 +157,7 @@ const LandingPage = () => {
         </div>
       </section>
       
-      <footer>
+      <footer id="footer">
         <div className="landing-container">
           <div className="footer-sections">
             <div className="footer-section">

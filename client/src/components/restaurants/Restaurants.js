@@ -1,124 +1,113 @@
-import React, { useEffect, useState } from 'react'
-import './restaurants.css'
-import axios from '../../axios'
-import { useNavigate,useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import './restaurants.css';
+import axios from '../../axios';
+import { useNavigate } from 'react-router-dom';
+
 function Restaurants() {
   const navigate = useNavigate();
-  const location = useLocation()
+  const [restaurants, setRestaurants] = useState([]);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [filter, setFilter] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const userId ='6471f9cc40dcddd0fed9dfd1'
-  const userName = 'safa c'
-  const [restaurants, setRestaurants] = useState([])
   useEffect(() => {
-    
     axios.get('/users')
       .then(response => {
-        let restaurantsArray = response.data.restaurantData
-        setRestaurants(restaurantsArray)
-        // console.log(restaurantsArray); 
-        
-        const sortedRestaurantsList = [...restaurantsArray].sort((a, b) => b.relevance - a.relevance);
-        setRestaurants(sortedRestaurantsList);
+        const restaurantsArray = response.data.restaurantData;
+        setRestaurants(restaurantsArray);
+        setFilteredRestaurants(restaurantsArray); // Initially display all
       }).catch((err) => {
         console.log(err);
       })
-
-
   }, []);
 
-  const viewHandle = (restId, menu) => {
-    
-    navigate(`/menu/${restId}`, { state: { menu,userId ,userName} })
-    
+  const filterRestaurants = (filterOption) => {
+    setFilter(filterOption);
+    let filtered = [...restaurants];
 
-  }
- 
-  const filterRestaurants = (sortOption) => {
-    let sortedRestaurantsList = [];
-    switch (sortOption) {
-      case 'Relevance':
-        sortedRestaurantsList = [...restaurants].sort((a, b) => b.relevance - a.relevance);
+    switch (filterOption) {
+      case 'Top Rated':
+        filtered = filtered.filter(restaurant => restaurant.CuisineType === 'Japanese' || restaurant.CuisineType === 'Seafood' || restaurant.CuisineType === 'Indian');
         break;
-      case 'Delivery Time':
-        sortedRestaurantsList = [...restaurants].sort((a, b) => a.deliveryTime - b.deliveryTime);
+      case 'Popular Cuisines':
+        filtered = filtered.filter(restaurant => restaurant.CuisineType === 'Japanese' || restaurant.CuisineType === 'Italian');
         break;
-      case 'Rating':
-        sortedRestaurantsList = [...restaurants].sort((a, b) => b.rating - a.rating);
+      case 'Quick Service':
+        // You can implement logic for quick service based on availability or set a default message
         break;
-      case 'Cost: Low To High':
-        sortedRestaurantsList = [...restaurants].sort((a, b) => a.cost - b.cost);
-        break;
-      case 'Cost: High To Low':
-        sortedRestaurantsList = [...restaurants].sort((a, b) => b.cost - a.cost);
+      case 'Affordable Options':
+        filtered = filtered.filter(restaurant => restaurant.CuisineType === 'Indian' || restaurant.CuisineType === 'Mexican');
         break;
       default:
-        sortedRestaurantsList = [...restaurants].sort((a, b) => b.relevance - a.relevance);
+        // 'All' or any other default option
         break;
     }
-    setRestaurants(sortedRestaurantsList)
-  }
+    setFilteredRestaurants(filtered);
+  };
 
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+  
+    const filtered = restaurants.filter((restaurant) =>
+      restaurant.RestaurantName.toLowerCase().includes(query) ||
+      restaurant.CuisineType.toLowerCase().includes(query)
+    );
+  
+    setFilteredRestaurants(filtered);
+  };
+  
+
+  const viewHandle = (restId, restName, menu) => {
+    console.log("rest name",restName);
+    navigate(`/menu/${restId}`, { state: { menu,restName } });
+  };
+  
 
   return (
     <div className='container'>
+      <div className="search-container">
+    <i className="fa fa-search search-icon"></i>
+    <input
+      type="text"
+      placeholder="Search for restaurants..."
+      value={searchQuery}
+      onChange={handleSearchChange}
+      className="search-input"
+    />
+  </div>
       <div className='filters'>
-        <h1>373 restaurants</h1>
+        <h1>{filteredRestaurants.length} Restaurants</h1>
         <div className='filter-options'>
           <ul className='filter-options'>
-            <li><button onClick={(e) => {
-              const filterValue = e.target.textContent
-              filterRestaurants(filterValue)
-            }}>Relevance</button></li>
-            <li> <button onClick={(e) => {
-              const filterValue = e.target.textContent
-              filterRestaurants(filterValue)
-            }}>Delivery Time</button></li>
-            <li><button onClick={(e) => {
-              const filterValue = e.target.textContent
-              filterRestaurants(filterValue)
-            }}>Rating</button></li>
-            <li><button onClick={(e) => {
-              const filterValue = e.target.textContent
-              filterRestaurants(filterValue)
-            }}>Cost: Low To High</button></li>
-            <li><button onClick={(e) => {
-              const filterValue = e.target.textContent
-              filterRestaurants(filterValue)
-            }}>Cost: High To Low</button></li>
-
+            {['All', 'Top Rated', 'Popular Cuisines', 'Quick Service', 'Affordable Options'].map(option => (
+              <li key={option}>
+                <button onClick={() => filterRestaurants(option)}>{option}</button>
+              </li>
+            ))}
           </ul>
-          <button id='filter-icon'><span>Filters</span> <i className="fa-solid fa-sliders fa-rotate-90"></i></button>
         </div>
       </div>
       <div className='restaurants'>
-        {restaurants.map((restaurant => {
-          console.log(restaurant.menus)
-    
-          return (
-            <div className="restaurant-details" key={restaurant._id}>
-
-              <img src={`http://localhost:9001/hungryhub/uploads/${restaurant.menus[0].imageName}`} alt="" />
-
-              <h3>{restaurant.RestaurantName}</h3>
-              <p>{restaurant.CuisineType}</p>
-              <div className='restaurant-review'>
-                <div id='rate'>
-                  <i className="fa-solid fa-star"></i>
-                  <span>{restaurant.rating}</span>
-                </div>
-                <span>{restaurant.deliveryTime} minutes</span>
-                <span id='currency'><svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M564 936 290 652v-66h130q57 0 100-37t50-103H240v-60h325q-13-48-53.5-79T420 276H240v-60h480v60H566q23 20 39 51t23 59h92v60h-90q-8 91-67.5 145.5T420 646h-52l279 290h-83Z" /></svg>{restaurant.cost} fOR TWO</span>
+        {filteredRestaurants.map((restaurant => (
+          <div className="restaurant-details" key={restaurant._id}>
+            <img src={`http://localhost:9001/hungryhub/uploads/${restaurant.menus[0].imageName}`} alt="" />
+            <h3>{restaurant.RestaurantName}</h3>
+            <p>{restaurant.CuisineType}</p>
+            <div className='restaurant-review'>
+              <div id='rate'>
+                <i className="fa-solid fa-star"></i>
+                <span>{restaurant.rating}</span>
               </div>
-              <button type='button' onClick={() => viewHandle(restaurant._id, restaurant.menus)}>QUICK VIEW</button>
+              <span>{restaurant.deliveryTime || 'Quick'} minutes</span>
+              {/* <span id='currency'><svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M564 936 290 652v-66h130q57 0 100-37t50-103H240v-60h325q-13-48-53.5-79T420 276H240v-60h480v60H566q23 20 39 51t23 59h92v60h-90q-8 91-67.5 145.5T420 646h-52l279 290h-83Z" /></svg>{restaurant.cost} for two</span> */}
             </div>
-          )
-        }))}
-
-
-
+            <button type='button' onClick={() => viewHandle(restaurant._id,restaurant.RestaurantName,restaurant.menus)}>QUICK VIEW</button>
+          </div>
+        )))}
       </div>
     </div>
-  )
+  );
 }
 
-export default Restaurants
+export default Restaurants;

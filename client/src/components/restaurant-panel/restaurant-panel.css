@@ -1,5 +1,19 @@
-.restaurent-panel{
+.restaurant-panel{
     display: flex;
     width: 100%;
    flex-direction: column;
  }
+ .under-construction {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.under-construction h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.under-construction p {
+  font-size: 16px;
+  color: gray;
+}

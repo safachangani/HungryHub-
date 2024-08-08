@@ -4,5 +4,5 @@ module.exports = {
     CART_COLLECTION:'cart',
     USERS: 'users',
     ORDER_COLLECTION:'order',
-    RESTAURANT_OWNERS:'restaurant-owners'
+    
 }

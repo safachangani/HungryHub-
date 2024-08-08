@@ -124,15 +124,16 @@ router.post('/get-quantity', (req, res) => {
 
 router.post('/remove-item', (req, res) => {
   userController.removeItem(req.body.userId, req.body.itemId).then(async () => {
-    let totalPrice = await userController.getTotalPrice(req.body.userId)
+    let totalPrice = await userController.getTotalPrice(req.body.userId);
     if (totalPrice == undefined) {
-      return totalPrice = { totalPrice: 0 }
+      totalPrice = { totalPrice: 0 };
     }
-    res.status(200).json({ itemId: req.body.itemId, totalPrice })
+    res.status(200).json({ itemId: req.body.itemId, totalPrice });
   }).catch(() => {
-    res.status(500).json({ message: 'server error' })
-  })
-})
+    res.status(500).json({ message: 'server error' });
+  });
+});
+
 
 router.post('/get-total-count', authenticationToken, (req, res) => {
   userController.getTotalCount(req.body.userId).then((response) => {
@@ -249,5 +250,66 @@ router.get('/get-order/:orderId',authenticationToken, (req, res) => {
     res.status(500).json({ error: "Failed to fetch order" });
   });
 });
+
+router.get('/location',authenticationToken,(req,res)=>{
+  console.log("location check");
+userController.getAddress(req.user._id).then((response)=>{
+  console.log(response)
+  res.status(200).json({location: response });
+}).catch((error) => {
+  console.error("Error fetching user address:", error.message);
+  res.status(500).json({ message: 'server error', error: error.message });
+})
+})
+
+router.get('/orders/history', authenticationToken, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const orders = await userController.orderHistory(userId);
+    
+    // Get unique itemIds and restaurantIds from all orders
+    const itemIds = [];
+    const restaurantIds = [];
+    orders.forEach(order => {
+      if (!restaurantIds.includes(order.restaurantId)) {
+        restaurantIds.push(order.restaurantId);
+      }
+      order.orderItems.forEach(item => {
+        if (!itemIds.includes(item.itemId)) {
+          itemIds.push(item.itemId);
+        }
+      });
+    });
+
+    // Fetch menu data for all itemIds and restaurant data for all restaurantIds
+    const [menuItems, restaurants] = await Promise.all([
+      userController.getMenuItems(itemIds),
+      userController.getRestaurantNames(restaurantIds)
+    ]);
+
+    // Combine menu and restaurant data with orders
+    const ordersWithDetails = orders.map(order => {
+      const restaurant = restaurants.find(rest => rest._id.toString() === order.restaurantId.toString());
+      const updatedOrderItems = order.orderItems.map(item => {
+        const menuItem = menuItems.find(menu => menu._id.toString() === item.itemId.toString());
+        return {
+          ...item,
+          menuItem,
+        };
+      });
+      return {
+        ...order,
+        restaurantName: restaurant ? restaurant.RestaurantName : 'Restaurant not found',
+        orderItems: updatedOrderItems,
+      };
+    });
+
+    res.status(200).json({ orders: ordersWithDetails });
+  } catch (error) {
+    console.error("Error fetching your past orders:", error.message);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 
 module.exports = router;

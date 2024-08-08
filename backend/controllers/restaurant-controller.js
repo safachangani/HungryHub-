@@ -206,7 +206,27 @@ module.exports = {
          let restaurantProfile = await db.get().collection(collections.RESTAURANT_REGISTER).findOne({_id:new ObjectId(resId)})
             resolve(restaurantProfile);
         })
-    }
-
+    },
+    getRestaurantAddress: (resId) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            // Fetch the restaurant document based on the provided ID
+            let restaurantProfile = await db.get().collection(collections.RESTAURANT_REGISTER).findOne(
+              { _id: new ObjectId(resId) },
+              { projection: {RestaurantAddress: 1 } } // Fetch only the address field
+            );
+            console.log(restaurantProfile,"gduyeeeewui");
+            if (restaurantProfile) {
+              resolve(restaurantProfile.RestaurantAddress);
+            } else {
+              reject('Restaurant not found');
+            }
+          } catch (error) {
+            console.error('Error fetching restaurant address:', error);
+            reject('Error fetching restaurant address');
+          }
+        });
+      },
+    
 
 }

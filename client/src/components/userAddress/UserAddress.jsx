@@ -61,12 +61,12 @@ function UserAddress(props) {
   };
 
   return (
-    <div className='oreder-create'>
+    <div className='order-create'>
       {props.cart === true &&
         (
           <div className='user-address'>
             <h3>Add delivery address</h3>
-            <span>You seem to be in the new location</span>
+            <span>You seem to be in a new location</span>
             <div className="address-box">
               <i className="fa-solid fa-location-dot"></i>
               <div className='address'>
@@ -151,7 +151,8 @@ function UserAddress(props) {
         </div>
         <div className={`overlay ${sidebarOpen ? 'open' : ''}`}></div>
         {isLoading && <div className="loading lds-dual-ring"></div>}
-        <Payment totalPrice={props.totalPrice} />
+        {/* Render Payment component only if userAddress is not null */}
+        {userAddress && <Payment totalPrice={props.totalPrice} />}
       </div>
     </div>
   );

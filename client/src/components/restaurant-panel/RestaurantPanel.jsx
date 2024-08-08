@@ -4,15 +4,20 @@ import RestaurantOrder from '../../components/restaurant-order/RestaurantOrder';
 import RestaurantMenu from '../../components/restaurant-menu/restaurantMenu';
 import RestaurantProfile from '../restaurant-profile/RestaurantProfile';
 import './restaurant-panel.css'
-function RestaurantPanel({selectedPage}) {
+
+function RestaurantPanel({ selectedPage }) {
   return (
-    <div className='restaurent-panel'> 
+    <div className='restaurant-panel'>
       <RestaurantNavbar />
-      {selectedPage==='Dashboard' && <></>}
-      {selectedPage==='Order' && <RestaurantOrder  />}
-      {selectedPage==='Menu' && <RestaurantMenu/>}
-      {selectedPage==='Profile' && <RestaurantProfile/>}
-      <div></div>
+      {selectedPage === 'Dashboard' && (
+        <div className="under-construction">
+          <h2>Under Construction</h2>
+          <p>This page is currently under construction. Please check back later!</p>
+        </div>
+      )}
+      {selectedPage === 'Order' && <RestaurantOrder />}
+      {selectedPage === 'Menu' && <RestaurantMenu />}
+      {selectedPage === 'Profile' && <RestaurantProfile />}
     </div>
   );
 }

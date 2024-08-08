@@ -32,7 +32,7 @@
 }
 .methods{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     
 }
 .pay-method {
@@ -49,6 +49,7 @@
     list-style-type: none;
     display: flex;
     padding: 1rem;
+    gap: 3rem;
   }
   
 .methods ul li {
@@ -139,6 +140,12 @@
 .order-summary button:focus{
   background-color: #3a6e2a;
 
+}
+.order-summary button:disabled {
+  background-color: #ccc; /* Light gray background color */
+  color: #777; /* Darker gray text color */
+  cursor: not-allowed; /* Cursor indicating the button is not clickable */
+  opacity: 0.6; /* Slightly transparent to indicate it's disabled */
 }
 
 .order-summary p{

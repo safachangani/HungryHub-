@@ -1,36 +1,74 @@
-import React, { useEffect, useState } from 'react'
-import './menu.css'
-import { useLocation, useNavigate } from 'react-router-dom'
-import axios from '../../axios'
-import { UserLoginContext } from '../context/useContext'
-import { useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react';
+import './menu.css';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from '../../axios';
+import { UserLoginContext } from '../context/useContext';
 
 function MenuList() {
-  const { user } = useContext(UserLoginContext)
-  const [userId, setUserId] = useState(null)
-  const location = useLocation()
-  const navigate = useNavigate()
+  const { user } = useContext(UserLoginContext);
+  const [userId, setUserId] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [restaurantInfo, setRestaurantInfo] = useState({
+    name: "", // Initial empty name, to be replaced with actual data
+    address: "", // Initial empty address, to be replaced with actual data
+    rating: null, // Initial null rating, to be replaced with actual data
+  });
+  const [menuList, setMenuList] = useState([]);
+  const [addedItem, setAddedItem] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+
   useEffect(() => {
-    console.log(user);
-    if (user !== null) {
+    if (user) {
       setUserId(user._id);
+    }
+
+    const { menu, restName } = location.state;
+
+    if (menu && menu.length > 0) {
+      setMenuList(menu);
+
+      // Set initial restaurant info if provided
+      setRestaurantInfo((prevInfo) => ({
+        ...prevInfo,
+        name: restName || prevInfo.name,
+      }));
+
+      // Fetch restaurant address and update restaurantInfo
+      const restaurantId = menu[0].restaurantId;
+      axios.get(`/restaurant/${restaurantId}/address`)
+        .then((response) => {
+          const { address } = response.data;
+          setRestaurantInfo((prevInfo) => ({
+            ...prevInfo,
+            address, // Update address with actual data
+          }));
+        }).catch((err) => {
+          console.error('Error fetching restaurant address:', err);
+        });
+    }
+  }, [user, location.state]);
+
+  useEffect(() => {
+    if (userId) {
+      const token = localStorage.getItem('token');
+      axios.post('/users/get-count', { userId }, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      }).then((response) => {
+        setAddedItem(response.data.cartItem);
+      }).catch((err) => {
+        console.error(err);
+      });
     }
   }, [userId]);
 
-  const menu = location.state.menu
-  const [menuList, setMenuList] = useState(menu)
-  const [addedItem, SetAddedItem] = useState([])
-  const [count, setCount] = useState(true)
   const addItemToCart = (menu, number) => {
-    const token = localStorage.getItem('token')
-    console.log(token);
+    const token = localStorage.getItem('token');
     axios.post(`/users/menu/${menu.restaurantId}`, { menu, number, userId }, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { 'Authorization': `Bearer ${token}` }
     }).then((response) => {
-      let resultItem = response.data.result
-      SetAddedItem((prevItems) => {
+      const resultItem = response.data.result;
+      setAddedItem((prevItems) => {
         const findIndex = prevItems.findIndex((item) => item.itemId === resultItem.itemId);
         if (findIndex !== -1) {
           const updatedItems = [...prevItems];
@@ -39,77 +77,89 @@ function MenuList() {
         } else {
           return [...prevItems, resultItem];
         }
-
-      })
+      });
+      window.location.reload();
     }).catch((err) => {
-      if (err.response.status == 401) {
-        navigate('/login')
+      if (err.response?.status === 401) {
+        navigate('/login');
+      } else {
+        console.error('Error adding item to cart:', err);
       }
-    })
-  }
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    console.log(token);
-    axios.post('/users/get-count', { userId }, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then((response) => {
-      let cartItem = response.data.cartItem
-      console.log(cartItem);
-      SetAddedItem(cartItem)
+    });
+  };
 
-    }).catch((err) => {
-      // console.log(err);
-      // console.log(addedItem);
-    })
+  // Handler for search input change
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value.toLowerCase());
+  };
 
-  }, [userId])
+  // Filter menu items based on the search query
+  const filteredMenu = menuList.filter(item =>
+    item.itemName.toLowerCase().includes(searchQuery) ||
+    item.category.toLowerCase().includes(searchQuery)
+  );
+
+  // Group the filtered menu items by category
+  const groupedFilteredMenu = filteredMenu.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = [];
+    acc[item.category].push(item);
+    return acc;
+  }, {});
+
   return (
-    <div className='container' id='menu-list'>
-      <div className="restaurant-data">
-        <h2>Irani Restaurant</h2>
-        <h4>Chinese, North Indian</h4>
+    <div className='menu-container'>
+      <div className="restaurant-info">
+        <h2>{restaurantInfo.name}</h2>
+        <p>{restaurantInfo.address}</p>
+        {restaurantInfo.rating && <p>Rating: {restaurantInfo.rating} / 5</p>}
       </div>
-      {menuList.map((menu) => {
-        console.log(addedItem);
-        let getCartItem
-        if (addedItem) {
-          getCartItem = addedItem.find(item => item.itemId === menu._id) || 0
-          console.log(getCartItem);
-         
-        }
+      
+      <div className="search-container">
+        <i className="fa fa-search search-icon"></i>
+        <input
+          type="text"
+          placeholder="Search for dishes or categories..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
+      </div>
+      
+      {Object.keys(groupedFilteredMenu).map((category) => (
+        <div key={category} className="menu-category">
+          <h3>{category}</h3>
+          <div className="menu-items">
+            {groupedFilteredMenu[category].map((menu) => {
+              const getCartItem = addedItem.find(item => item.itemId === menu._id) || { quantity: 0 };
 
-        return (
-          <div className="menu-data" key={menu._id}>
-            <div className='menu-item'>
-              <h3>{menu.itemName}</h3>
-              <h5>{menu.price}</h5>
-            </div>
-            <div className="menu-image">
-              <img src={`http://localhost:9001/hungryhub/uploads/${menu.imageName}`} alt="" />
-              <div className="add-buttons">
-                {getCartItem && getCartItem.quantity > 0 ? (
-
-                  <>
-                    <button id='minus' onClick={() => addItemToCart(menu, -1)} className='click-minus'><i className="fa-solid fa-minus"></i></button>
-                    <span>{getCartItem && getCartItem.quantity}</span>
-                    <button id="add" onClick={() => addItemToCart(menu, 1)} className='click-add'><i className="fa-solid fa-plus"></i></button>
-                  </>
-                ) : (
-
-                  <button className="click-add" onClick={() => addItemToCart(menu, 1)}>ADD</button>
-
-                )}
-
-              </div>
-            </div>
+              return (
+                <div className="menu-item" key={menu._id}>
+                  <div className="menu-item-details">
+                    <h4>{menu.itemName}</h4>
+                    <p>Price: ₹{menu.price}</p>
+                  </div>
+                  <div className="menu-item-actions">
+                    <img src={`http://localhost:9001/hungryhub/uploads/${menu.imageName}`} alt={menu.itemName} />
+                    <div className="add-buttons">
+                      {getCartItem.quantity > 0 ? (
+                        <>
+                          <button onClick={() => addItemToCart(menu, -1)}>-</button>
+                          <span>{getCartItem.quantity}</span>
+                          <button onClick={() => addItemToCart(menu, 1)}>+</button>
+                        </>
+                      ) : (
+                        <button onClick={() => addItemToCart(menu, 1)}>ADD</button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
-
+        </div>
+      ))}
     </div>
-  )
+  );
 }
 
-export default MenuList
+export default MenuList;

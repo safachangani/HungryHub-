@@ -123,4 +123,21 @@ restaurantsCollecter.updateMenu(req.params.menuId,updatedData).then((response)=>
 })
 })
 
+
+router.get('/restaurant/:restaurantId/address', async (req, res) => {
+ 
+    const restaurantId = req.params.restaurantId;
+   
+  restaurantsCollecter.getRestaurantAddress(restaurantId)
+  .then((address) => {
+    // If the address is successfully retrieved, send it as a response
+    console.log(address,"hgygweuy");
+    res.status(200).json({ address });
+  })
+  .catch((err) => {
+    // If an error occurs, send an error response
+    console.error('Error fetching restaurant address:', err);
+    res.status(500).json({ error: 'Failed to retrieve restaurant address' });
+  });
+});
 module.exports = router;

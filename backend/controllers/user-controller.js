@@ -52,70 +52,66 @@ module.exports = {
                 resolve({ message: 'Invalid Email Address' })
             }
         })
-    },
-    addToCart: (cartItems) => {
-      
+    },addToCart: (cartItems) => {
         return new Promise(async (resolve, reject) => {
             if (cartItems.userId) {
-                const cart = await db.get().collection(collections.CART_COLLECTION).findOne({ userId: cartItems.userId })
-                
-                const restaurant = await db.get().collection(collections.CART_COLLECTION).findOne({ restaurantId: cartItems.restaurantId })
+                const cart = await db.get().collection(collections.CART_COLLECTION).findOne({ userId: cartItems.userId });
+                const restaurant = await db.get().collection(collections.CART_COLLECTION).findOne({ restaurantId: cartItems.restaurantId });
+    
                 if (cart) {
-                    let itemExist = cart.cartItem.findIndex(item => item.itemId.equals(cartItems.cartItem[0].itemId))
-                    
+                    let itemExist = cart.cartItem.findIndex(item => item.itemId.equals(cartItems.cartItem[0].itemId));
+    
                     if (itemExist != -1) {
                         if (cart.cartItem[itemExist].quantity == 1 && cartItems.cartItem[0].quantity == -1) {
                             db.get().collection(collections.CART_COLLECTION).updateOne({ userId: cartItems.userId, 'cartItem.itemId': cartItems.cartItem[0].itemId }, {
                                 $pull: { cartItem: { itemId: cartItems.cartItem[0].itemId } }
-                            }).then((response) => {
-                                resolve(response)
-                            })
-                        }
-                        else {
-
+                            }).then(async (response) => {
+                                // Check if the cart is empty after removal
+                                const updatedCart = await db.get().collection(collections.CART_COLLECTION).findOne({ userId: cartItems.userId });
+                                if (updatedCart.cartItem.length === 0) {
+                                    // Remove the entire cart document if empty
+                                    await db.get().collection(collections.CART_COLLECTION).deleteOne({ userId: cartItems.userId });
+                                }
+                                resolve(response);
+                            });
+                        } else {
                             db.get().collection(collections.CART_COLLECTION).updateOne({ userId: cartItems.userId, 'cartItem.itemId': cartItems.cartItem[0].itemId }, {
                                 $inc: { 'cartItem.$.quantity': cartItems.cartItem[0].quantity }
                             }).then((response) => {
-                                console.log(response, "82");
-                                resolve(response)
-                            })
+                                resolve(response);
+                            });
                         }
-                    }
-                    else {
+                    } else {
                         if (restaurant) {
-                            db.get().collection(collections.CART_COLLECTION).updateOne({ userId: cartItems.userId },
-                                {
-                                    $push: { cartItem: cartItems.cartItem[0] }
-                                }).then((response) => {
-                                    resolve(response)
-                                })
-                        }
-                        else {
-                            reject({ messaage: 'restaurant should be same' })
+                            db.get().collection(collections.CART_COLLECTION).updateOne({ userId: cartItems.userId }, {
+                                $push: { cartItem: cartItems.cartItem[0] }
+                            }).then((response) => {
+                                resolve(response);
+                            });
+                        } else {
+                            reject({ message: 'restaurant should be the same' });
                         }
                     }
-                }
-                else {
+                } else {
                     db.get().collection(collections.CART_COLLECTION).insertOne(cartItems).then((response) => {
-                        resolve(response)
-                    })
+                        resolve(response);
+                    });
                 }
+            } else {
+                reject({ message: "please Login" });
             }
-            else {
-                reject({ messaage: "please Login" })
-            }
-        })
+        });
     },
     updateCount: (userId, itemId, count) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.CART_COLLECTION).updateOne({ userId: new ObjectId(userId), 'cartItem.itemId': new ObjectId(itemId) }, {
                 $inc: { 'cartItem.$.quantity': count }
             }).then((response) => {
-                
-                resolve(response)
-            })
-        })
+                resolve(response);
+            });
+        });
     },
+    
     getQuantity: (userId, itemId) => {
        
         return new Promise((resolve, reject) => {
@@ -233,15 +229,28 @@ module.exports = {
         })
     },
     removeItem: (userId, itemId) => {
-        return new Promise((resolve, reject) => {
-            db.get().collection(collections.CART_COLLECTION).updateOne({ userId: new ObjectId(userId), 'cartItem.itemId': new ObjectId(itemId) }, {
-                $pull: { cartItem: { itemId: new ObjectId(itemId) } }
-            }).then((response) => {
-                
-                resolve()
-            })
-        })
+        return new Promise(async (resolve, reject) => {
+            try {
+                // Remove the item from the cart
+                await db.get().collection(collections.CART_COLLECTION).updateOne(
+                    { userId: new ObjectId(userId), 'cartItem.itemId': new ObjectId(itemId) },
+                    { $pull: { cartItem: { itemId: new ObjectId(itemId) } } }
+                );
+    
+                // Check if the cart is empty after removal
+                const updatedCart = await db.get().collection(collections.CART_COLLECTION).findOne({ userId: new ObjectId(userId) });
+                if (updatedCart.cartItem.length === 0) {
+                    // Remove the entire cart document if empty
+                    await db.get().collection(collections.CART_COLLECTION).deleteOne({ userId: new ObjectId(userId) });
+                }
+    
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
     },
+    
     getTotalCount: (userId) => {
         let user = new ObjectId(userId)
        
@@ -450,7 +459,49 @@ module.exports = {
               reject(err);
             })
         });
-    }
+    },
+     orderHistory : (userId) => {
+         return new Promise((resolve, reject) => {
+             db.get().collection(collections.ORDER_COLLECTION).find({ userId: new ObjectId(userId) }).toArray()
+             .then((orders) => {
+                    // console.log(orders,"found");
+                    
+                    resolve(orders);
+                }).catch((err) => {
+                    reject(err);
+                });
+        })
+     },
+     getMenuItems: (itemIds) => {
+        return new Promise((resolve, reject) => {
+          db.get().collection(collections.MENU_DETAILS).find({ _id: { $in: itemIds.map(id => new ObjectId(id)) } }).toArray()
+            .then((result) => {
+              resolve(result);
+              console.log(result,"found");
+            }).catch((err) => {
+              reject(err);
+            });
+        });
+      },
+      getRestaurantNames: (restaurantIds) => {
+        console.log(restaurantIds, "234");
+        return new Promise((resolve, reject) => {
+          // Ensure IDs are correctly formatted as ObjectId
+          const objectIds = restaurantIds.map(id => new ObjectId(id));
+          console.log("Formatted Object IDs:", objectIds);
     
+          db.get().collection(collections.RESTAURANT_REGISTER)
+            .find({ _id: { $in: objectIds } })
+            .toArray()
+            .then((restaurants) => {
+              console.log("res", restaurants);
+              resolve(restaurants);
+            })
+            .catch((err) => {
+              console.error("Error during DB query:", err);
+              reject(err);
+            });
+        });
+      },
     
 }

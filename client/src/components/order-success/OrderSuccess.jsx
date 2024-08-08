@@ -21,7 +21,7 @@ function OrderSuccess( {orderId}) {
           <h2>Congratulations</h2>
           <span>Your order was placed successfully!</span>
           <div className="order-success-buttons">
-            <button onClick={handleTrackOrder}>Track Order</button>
+            {/* <button onClick={handleTrackOrder}>Track Order</button> */}
             <button onClick={handleViewOrderDetails}>View Order</button>
           </div>
         </div>
