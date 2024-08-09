@@ -49,34 +49,34 @@ function Restaurants() {
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-  
+
     const filtered = restaurants.filter((restaurant) =>
       restaurant.RestaurantName.toLowerCase().includes(query) ||
       restaurant.CuisineType.toLowerCase().includes(query)
     );
-  
+
     setFilteredRestaurants(filtered);
   };
-  
+
 
   const viewHandle = (restId, restName, menu) => {
-    console.log("rest name",restName);
-    navigate(`/menu/${restId}`, { state: { menu,restName } });
+    console.log("rest name", restName);
+    navigate(`/menu/${restId}`, { state: { menu, restName } });
   };
-  
+
 
   return (
     <div className='container'>
       <div className="search-container">
-    <i className="fa fa-search search-icon"></i>
-    <input
-      type="text"
-      placeholder="Search for restaurants..."
-      value={searchQuery}
-      onChange={handleSearchChange}
-      className="search-input"
-    />
-  </div>
+        <i className="fa fa-search search-icon"></i>
+        <input
+          type="text"
+          placeholder="Search for restaurants..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
+      </div>
       <div className='filters'>
         <h1>{filteredRestaurants.length} Restaurants</h1>
         <div className='filter-options'>
@@ -92,7 +92,15 @@ function Restaurants() {
       <div className='restaurants'>
         {filteredRestaurants.map((restaurant => (
           <div className="restaurant-details" key={restaurant._id}>
-            <img src={`https://hungryhub-backend-gn2s.onrender.com/hungryhub/uploads/${restaurant.menus[0].imageName}`} alt="" />
+            {restaurant.menus && restaurant.menus.length > 0 ? (
+              <img
+                src={`https://hungryhub-backend-gn2s.onrender.com/hungryhub/uploads/${restaurant.menus[0].imageName}`}
+                alt={restaurant.menus[0].itemName || "Restaurant Menu"}
+              />
+            ) : (
+              <p>No menu available</p>
+            )}
+
             <h3>{restaurant.RestaurantName}</h3>
             <p>{restaurant.CuisineType}</p>
             <div className='restaurant-review'>
@@ -103,7 +111,7 @@ function Restaurants() {
               <span>{restaurant.deliveryTime || 'Quick'} minutes</span>
               {/* <span id='currency'><svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M564 936 290 652v-66h130q57 0 100-37t50-103H240v-60h325q-13-48-53.5-79T420 276H240v-60h480v60H566q23 20 39 51t23 59h92v60h-90q-8 91-67.5 145.5T420 646h-52l279 290h-83Z" /></svg>{restaurant.cost} for two</span> */}
             </div>
-            <button type='button' onClick={() => viewHandle(restaurant._id,restaurant.RestaurantName,restaurant.menus)}>QUICK VIEW</button>
+            <button type='button' onClick={() => viewHandle(restaurant._id, restaurant.RestaurantName, restaurant.menus)}>QUICK VIEW</button>
           </div>
         )))}
       </div>
