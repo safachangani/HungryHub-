@@ -91,7 +91,7 @@ function Restaurants() {
       <div className='restaurants'>
         {filteredRestaurants.map((restaurant => (
           <div className="restaurant-details" key={restaurant._id}>
-            <img src={`http://localhost:9001/hungryhub/uploads/${restaurant.menus[0].imageName}`} alt="" />
+            <img src={`https://hungryhub-backend-gn2s.onrender.com/hungryhub/uploads/${restaurant.menus[0].imageName}`} alt="" />
             <h3>{restaurant.RestaurantName}</h3>
             <p>{restaurant.CuisineType}</p>
             <div className='restaurant-review'>

@@ -139,7 +139,7 @@ function MenuList() {
                     <p>Price: ₹{menu.price}</p>
                   </div>
                   <div className="menu-item-actions">
-                    <img src={`http://localhost:9001/hungryhub/uploads/${menu.imageName}`} alt={menu.itemName} />
+                    <img src={`https://hungryhub-backend-gn2s.onrender.com/hungryhub/uploads/${menu.imageName}`} alt={menu.itemName} />
                     <div className="add-buttons">
                       {getCartItem.quantity > 0 ? (
                         <>

@@ -45,7 +45,7 @@ function OrderHistory() {
                 <h4>Items:</h4>
                 {order.orderItems.map((item) => (
                   <div key={item.itemId} className="order-item">
-                    {item.menuItem && <img src={`http://localhost:9001/hungryhub/uploads/${item.menuItem.imageName}`} alt={item.menuItem.itemName} className="order-item-image" />}
+                    {item.menuItem && <img src={`https://hungryhub-backend-gn2s.onrender.com/hungryhub/uploads/${item.menuItem.imageName}`} alt={item.menuItem.itemName} className="order-item-image" />}
                     <div className="order-item-details">
                       <span>{item.menuItem ? item.menuItem.itemName : 'No Longer Available'}</span>
                       <p>Quantity: {item.quantity}</p>
