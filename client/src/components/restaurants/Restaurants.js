@@ -14,6 +14,7 @@ function Restaurants() {
     axios.get('/users')
       .then(response => {
         const restaurantsArray = response.data.restaurantData;
+        console.log(response);
         setRestaurants(restaurantsArray);
         setFilteredRestaurants(restaurantsArray); // Initially display all
       }).catch((err) => {
