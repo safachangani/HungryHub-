@@ -60,7 +60,7 @@ const loginSubmit=(data)=>{
               <a href="">forgot password</a>
               <input type="submit" value="Login"  />
              
-              <span>New to HungryHub? <a href="/restaurant-signup">Create Account</a> </span>
+              <span>New to HungryHub? <a href="/restaurant-register">Create Account</a> </span>
             </form>
           </div>
         </div>
